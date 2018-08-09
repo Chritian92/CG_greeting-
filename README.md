@@ -1,1 +1,3 @@
-# CG_greeting-
+# CG_greeting
+
+repository for greeting
