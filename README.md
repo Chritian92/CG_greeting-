@@ -35,23 +35,18 @@ Make sure you have the following installed on your computer:
 
 # ready
 
-Open a terminal/console and paste:
-
-```bash
-mvn archetype:generate -B -DgroupId=org.jooby.guides -DartifactId=greeting -Dversion=1.0 -DarchetypeArtifactId=jooby-archetype -DarchetypeGroupId=org.jooby -DarchetypeVersion=1.4.0
+### Run commands
+ You can build an executable jar in the module target directory using gradle wapper:
+ ```sh
+./gradlew build
+```
+ open console and execute command to run .jar file created:
+ ```sh
+java -jar PATH_PROJECT/build/libs/libhoney-java-example-webapp-1.0.2-capsule.jar
 ```
 
-A simple `hello world` application is now ready to run. Try:
-
-```
-cd greeting
-
-mvn jooby:run
-```
-
-Open a browser and type:
-
-```
+open browser:
+ ```sh
 http://localhost:8080
 ```
 
