@@ -22,4 +22,13 @@ public class AppTest {
         .body(equalTo("{\"id\":1,\"name\":\"Hello Jooby!\"}"))
         .contentType("application/json;charset=UTF-8");
   }
+
+  @Test
+  public void main() {
+    assertFalse("",new App().toString(),false);
+  }
+
+  private void assertFalse(String s, String s1, boolean b) {
+  }
+
 }

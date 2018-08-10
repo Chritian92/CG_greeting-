@@ -1,0 +1,62 @@
+fformat_version: 3
+pipelines:
+  task-pipeline:
+    lock_behavior: lockOnFailure
+    group: Project
+    materials:
+      repo: 
+        git: https://github.com/devops-at06/CG_greeting-.git
+        branch: master
+    stages: 
+      - Build:
+          jobs:
+            Building: 
+              tasks:
+                - exec:
+                    command: ./gradlew
+                    arguments:
+                      - "clean"
+                      - "assemble"
+                      - "-p"
+              artifacts:
+                - build:
+                    source: build/libs/*.jar
+                    destination: build
+
+      - Test:
+          jobs:
+            Publishing: 
+              tasks:
+                - exec:
+                    command: ./gradlew
+                    arguments:
+                      - clean
+                      - test
+                      - -p
+                - exec:
+                    command: ./gradlew
+                    arguments:
+                      - clean
+                      - test
+                      - jacocoTestReport
+                      - -p
+              artifacts:
+                - build:
+                    source: build/reports/tests/test/*
+                    destination: html_report
+                - test:
+                    source: build/test-results/test/*xml
+                    destination: xml
+              tabs:
+                Xml_Test_Result: xml/TEST-greeting.AppTest.xml
+                Test_Summary: html_report/index.html
+                
+      - CodeQuality:
+          jobs:
+            CodeQuality: 
+              tasks:
+                - exec:
+                    command: ./gradlew
+                    arguments:
+                      - sonarqube
+                      - -p               
