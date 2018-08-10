@@ -55,22 +55,6 @@ pipeline {
              reportDir: 'build/jacocoHtml',
              reportFiles: 'index.html',
              reportName: "Code Coverage"
-           ])
-           publishHTML (target: [
-             allowMissing: false,
-             alwaysLinkToLastBuild: false,
-             keepAll: true,
-             reportDir: 'build/reports/findbugs/*.html',
-             reportFiles: 'main.html',
-             reportName: "findbugs Main"
-           ])		  
-           publishHTML (target: [
-             allowMissing: false,
-             alwaysLinkToLastBuild: false,
-             keepAll: true,
-             reportDir: 'build/reports/findbugs/*.html',
-             reportFiles: 'test.html',
-             reportName: "findbugs Test"
            ])			   
        }
        success {
