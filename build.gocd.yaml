@@ -23,7 +23,7 @@ pipelines:
                     destination: build
       - Test:
           jobs:
-            Publishing:
+            Tests:
               tasks:
                 - exec:
                     command: ./gradlew
@@ -74,7 +74,7 @@ pipelines:
                       - -Dsonar.login=9e466878cd5882f00bb4127599e7623efa322e91
       - Publish:
           jobs:
-            pucblishArtifact:
+            publishArtifacts:
               tasks:
                 - exec:
                     command: ./gradlew
