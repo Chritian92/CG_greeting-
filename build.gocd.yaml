@@ -53,7 +53,7 @@ pipelines:
                      destination: findbugs
                 - build:
                      source: build/reports/pmd/*
-                    destination: pmd
+                     destination: pmd
               tabs:
                 Junit_Test: html/index.html
                 Xml_Test_Result: xml/TEST-greeting.AppTest.xml
