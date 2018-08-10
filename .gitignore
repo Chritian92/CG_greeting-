@@ -3,8 +3,10 @@
 # Package Files #
 *.ear
 target
+.gradle
 .classpath
 .project
+build
 .settings
 dependency-reduced-pom.xml
 bin

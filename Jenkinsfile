@@ -18,6 +18,7 @@ pipeline {
             steps {
                 echo 'Code Quality..'
                 sh'./gradlew sonarqube -Dsonar.organization=chritian92-github -Dsonar.host.url=https://sonarcloud.io  -Dsonar.login=9e466878cd5882f00bb4127599e7623efa322e91'
+
             }
         }
         stage('checkstyle') {
