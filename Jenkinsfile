@@ -11,36 +11,86 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Testing..'
-                sh'./gradlew clean test jacocoTestReport'
+                sh'./gradlew test jacocoTestReport'
             }
         }
         stage('CodeQuality') {
             steps {
                 echo 'Code Quality..'
-                sh'./gradlew sonarqube -Dsonar.organization=chritian92-github -Dsonar.host.url=https://sonarcloud.io  -Dsonar.login=9e466878cd5882f00bb4127599e7623efa322e91'
+                sh'./gradlew sonarqube'
             }
+        }
+        stage('checkstyle') {
+             steps {
+                 echo 'Code check..'
+                 sh'./gradlew check'
+             }
         }
         stage('Publish') {
             steps {
                 echo 'Publishing Artifact....'
-		        sh './gradlew uploadArchives '
-		        echo 'Publishing Reports....'
-		        sh './gradlew clean test jacocoTestReport'
+        		sh './gradlew uploadArchives '
+        		echo 'Publishing Reports....'
+        		sh './gradlew clean test jacocoTestReport'
             }
         }
+        
     }
     post {
-       always {
-                archiveArtifacts artifacts: 'build/libs/*.jar', fingerprint: true, onlyIfSuccessful: true
-                junit 'build/test-results/test/*.xml'
-                publishHTML([allowMissing: true,
-                               alwaysLinkToLastBuild: false,
-                               keepAll: true,
-                               reportDir: 'build/reports/tests/test/',
-                               reportFiles: 'index.html',
-                               reportTitles: "Code Coverage Report",
-                               reportName: 'Code Coverage Report'])
-        }
+        always {
+           junit 'build/test-results/test/*.xml'
+           publishHTML (target: [
+             allowMissing: false,
+             alwaysLinkToLastBuild: false,
+             keepAll: true,
+             reportDir: 'build/reports/tests/test',
+             reportFiles: 'index.html',
+             reportName: "Test Summary"
+	       ])
+           publishHTML (target: [
+             allowMissing: false,
+             alwaysLinkToLastBuild: false,
+             keepAll: true,
+             reportDir: 'build/reports/jacoco',
+             reportFiles: 'index.html',
+             reportName: "Code Coverage"
+           ])	 
+           publishHTML (target: [
+             allowMissing: false,
+             alwaysLinkToLastBuild: false,
+             keepAll: true,
+             reportDir: 'build/reports/pmd',
+             reportFiles: 'main.html',
+             reportName: "PMD Main Analysis"
+           ])	
+           publishHTML (target: [
+             allowMissing: false,
+             alwaysLinkToLastBuild: false,
+             keepAll: true,
+             reportDir: 'build/reports/pmd',
+             reportFiles: 'test.html',
+             reportName: "PMD Test Analysis"
+           ])	
+           publishHTML (target: [
+             allowMissing: false,
+             alwaysLinkToLastBuild: false,
+             keepAll: true,
+             reportDir: 'build/reports/findbugs',
+             reportFiles: 'main.html',
+             reportName: "Findbugs Main Analysis"
+           ])		  
+           publishHTML (target: [
+             allowMissing: false,
+             alwaysLinkToLastBuild: false,
+             keepAll: true,
+             reportDir: 'build/reports/findbugs',
+             reportFiles: 'test.html',
+             reportName: "Findbugs Test Analysis"
+           ])			   
+       }
+       success {
+           archiveArtifacts artifacts: 'build/libs/*.jar', fingerprint: true
+       }      
 
     }
 }

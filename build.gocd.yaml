@@ -15,8 +15,8 @@ pipelines:
                 - exec:
                     command: ./gradlew
                     arguments:
-                      - "clean"
-                      - "assemble"
+                      - clean
+                      - assemble
               artifacts:
                 - build:
                     source: build/libs/*.jar
@@ -37,6 +37,7 @@ pipelines:
                       - clean
                       - test
                       - jacocoTestReport
+                      - check
               artifacts:
                 - build:
                     source: build/reports/tests/test/*
