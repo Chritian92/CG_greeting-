@@ -11,7 +11,7 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Testing..'
-                sh'./gradlew clean test jacocoTestReport'               
+                sh'./gradlew clean test jacocoTestReport'
             }
         }
         stage('CodeQuality') {

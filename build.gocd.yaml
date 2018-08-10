@@ -1,6 +1,6 @@
 fformat_version: 3
 pipelines:
-  task-pipeline:
+  greeting-pipeline:
     lock_behavior: lockOnFailure
     group: Project
     materials:
