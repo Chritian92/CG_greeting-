@@ -1,4 +1,4 @@
-fformat_version: 3
+format_version: 3
 pipelines:
   greeting-pipeline:
     lock_behavior: lockOnFailure
