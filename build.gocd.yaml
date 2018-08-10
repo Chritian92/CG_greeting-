@@ -17,7 +17,6 @@ pipelines:
                     arguments:
                       - "clean"
                       - "assemble"
-                      - "-p"
               artifacts:
                 - build:
                     source: build/libs/*.jar
@@ -25,21 +24,19 @@ pipelines:
 
       - Test:
           jobs:
-            Publishing: 
+            Publishing:
               tasks:
                 - exec:
                     command: ./gradlew
                     arguments:
                       - clean
                       - test
-                      - -p
                 - exec:
                     command: ./gradlew
                     arguments:
                       - clean
                       - test
                       - jacocoTestReport
-                      - -p
               artifacts:
                 - build:
                     source: build/reports/tests/test/*
@@ -50,13 +47,24 @@ pipelines:
               tabs:
                 Xml_Test_Result: xml/TEST-greeting.AppTest.xml
                 Test_Summary: html_report/index.html
-                
+
       - CodeQuality:
           jobs:
-            CodeQuality: 
+            CodeQuality:
               tasks:
                 - exec:
                     command: ./gradlew
                     arguments:
                       - sonarqube
-                      - -p               
+      - Publish:
+                jobs:
+                  pucblishArtifact:
+                    tasks:
+                      - exec:
+                          command: ./gradlew
+                          arguments:
+                            - "uploadArchives"
+                    artifacts:
+                      - build:
+                          source: repos/*.jar
+                          destination: war
