@@ -60,7 +60,7 @@ pipeline {
              allowMissing: false,
              alwaysLinkToLastBuild: false,
              keepAll: true,
-             reportDir: 'build/reports/findbugs',
+             reportDir: 'build/reports/findbugs/*',
              reportFiles: 'main.html',
              reportName: "findbugs Main"
            ])		  
@@ -68,7 +68,7 @@ pipeline {
              allowMissing: false,
              alwaysLinkToLastBuild: false,
              keepAll: true,
-             reportDir: 'build/reports/findbugs',
+             reportDir: 'build/reports/findbugs/*',
              reportFiles: 'test.html',
              reportName: "findbugs Test"
            ])			   
