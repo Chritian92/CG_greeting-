@@ -15,13 +15,12 @@ pipelines:
                 - exec:
                     command: ./gradlew
                     arguments:
-                      - clean
-                      - assemble
+                      - "clean"
+                      - "assemble"
               artifacts:
                 - build:
                     source: build/libs/*.jar
                     destination: build
-
       - Test:
           jobs:
             Publishing:
@@ -29,14 +28,12 @@ pipelines:
                 - exec:
                     command: ./gradlew
                     arguments:
-                      - clean
+                      - "clean"
                       - test
+                      - jacocoTestReport
                 - exec:
                     command: ./gradlew
                     arguments:
-                      - clean
-                      - test
-                      - jacocoTestReport
                       - check
               artifacts:
                 - build:
@@ -48,7 +45,6 @@ pipelines:
               tabs:
                 Xml_Test_Result: xml/TEST-greeting.AppTest.xml
                 Test_Summary: html_report/index.html
-
       - CodeQuality:
           jobs:
             CodeQuality:
@@ -58,14 +54,14 @@ pipelines:
                     arguments:
                       - sonarqube
       - Publish:
-                jobs:
-                  pucblishArtifact:
-                    tasks:
-                      - exec:
-                          command: ./gradlew
-                          arguments:
-                            - "uploadArchives"
-                    artifacts:
-                      - build:
-                          source: repos/*.jar
-                          destination: war
+          jobs:
+            pucblishArtifact:
+              tasks:
+                - exec:
+                    command: ./gradlew
+                    arguments:
+                      - "uploadArchives"
+              artifacts:
+                - build:
+                    source: repos/*.jar
+                    destination: war
