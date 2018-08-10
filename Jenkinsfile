@@ -11,7 +11,7 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Testing..'
-                sh'./gradlew clean test jacocoTestReport'
+                sh'./gradlew clean test jacocoTestReport'               
             }
         }
         stage('CodeQuality') {
@@ -20,33 +20,27 @@ pipeline {
                 sh'./gradlew sonarqube'
             }
         }
-
-    }
-    post {
-    		always {
-    			junit 'build/test-results/test/*.xml'
-                publishHTML (target: [
-                  allowMissing: false,
-                  alwaysLinkToLastBuild: false,
-                  keepAll: true,
-                  reportDir: 'build/reports/tests/test',
-                  reportFiles: 'index.html',
-                  reportName: "Test Reports"
-                  ])
-                publishHTML (target: [
-                 allowMissing: false,
-                 alwaysLinkToLastBuild: false,
-                 keepAll: true,
-                 reportDir: 'build/reports/jacoco',
-                 reportFiles: 'index.html',
-                 reportName: "Code Coverage Reports"
-                 ])
-                }
-
-            success {
-    			archiveArtifacts artifacts: 'build/libs/*.war', fingerprint: true
+        stage('Publish') {
+            steps {
+                echo 'Publishing Artifact....'
+		        sh './gradlew uploadArchives '
+		        echo 'Publishing Reports....'
+		        sh './gradlew clean test jacocoTestReport'
             }
         }
     }
+    post {
+       always {
+                archiveArtifacts artifacts: 'build/libs/*.jar', fingerprint: true, onlyIfSuccessful: true
+                junit 'build/test-results/test/*.xml'
+                publishHTML([allowMissing: true,
+                               alwaysLinkToLastBuild: false,
+                               keepAll: true,
+                               reportDir: 'build/reports/tests/test/',
+                               reportFiles: 'index.html',
+                               reportTitles: "Code Coverage Report",
+                               reportName: 'Code Coverage Report'])
+        }
 
+    }
 }
