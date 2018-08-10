@@ -6,6 +6,8 @@ pipeline {
             steps {
                 sh 'chmod +x gradlew'
                 sh './gradlew clean assemble'
+		echo 'Code check..'
+                sh'./gradlew check'
             }
         }
         stage('Test') {
@@ -20,12 +22,6 @@ pipeline {
                 sh'./gradlew sonarqube -Dsonar.organization=chritian92-github -Dsonar.host.url=https://sonarcloud.io  -Dsonar.login=9e466878cd5882f00bb4127599e7623efa322e91'
 
             }
-        }
-        stage('checkstyle') {
-             steps {
-                 echo 'Code check..'
-                 sh'./gradlew check'
-             }
         }
         stage('Publish') {
             steps {
