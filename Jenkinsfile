@@ -55,23 +55,7 @@ pipeline {
              reportDir: 'build/jacocoHtml',
              reportFiles: 'index.html',
              reportName: "Code Coverage"
-           ])	 
-           publishHTML (target: [
-             allowMissing: false,
-             alwaysLinkToLastBuild: false,
-             keepAll: true,
-             reportDir: 'build/reports/pmd',
-             reportFiles: 'main.html',
-             reportName: "pmd Main"
-           ])	
-           publishHTML (target: [
-             allowMissing: false,
-             alwaysLinkToLastBuild: false,
-             keepAll: true,
-             reportDir: 'build/reports/pmd',
-             reportFiles: 'test.html',
-             reportName: "pmd Test"
-           ])	
+           ])
            publishHTML (target: [
              allowMissing: false,
              alwaysLinkToLastBuild: false,
