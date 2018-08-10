@@ -61,7 +61,7 @@ pipeline {
              keepAll: true,
              reportDir: 'build/reports/pmd',
              reportFiles: 'main.html',
-             reportName: "PMD Main Analysis"
+             reportName: "pmd Main"
            ])	
            publishHTML (target: [
              allowMissing: false,
@@ -69,7 +69,7 @@ pipeline {
              keepAll: true,
              reportDir: 'build/reports/pmd',
              reportFiles: 'test.html',
-             reportName: "PMD Test Analysis"
+             reportName: "pmd Test"
            ])	
            publishHTML (target: [
              allowMissing: false,
@@ -77,7 +77,7 @@ pipeline {
              keepAll: true,
              reportDir: 'build/reports/findbugs',
              reportFiles: 'main.html',
-             reportName: "Findbugs Main Analysis"
+             reportName: "findbugs Main"
            ])		  
            publishHTML (target: [
              allowMissing: false,
@@ -85,7 +85,7 @@ pipeline {
              keepAll: true,
              reportDir: 'build/reports/findbugs',
              reportFiles: 'test.html',
-             reportName: "Findbugs Test Analysis"
+             reportName: "findbugs Test"
            ])			   
        }
        success {
