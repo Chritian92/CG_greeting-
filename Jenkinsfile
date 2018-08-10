@@ -58,7 +58,7 @@ pipeline {
            ])			   
        }
        success {
-           archiveArtifacts artifacts: 'build/libs/*.jar', fingerprint: true
+           archiveArtifacts artifacts: '**/repos/*.jar', fingerprint: true
        }      
 
     }
