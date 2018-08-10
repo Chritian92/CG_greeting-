@@ -6,14 +6,14 @@ pipeline {
             steps {
                 sh 'chmod +x gradlew'
                 sh './gradlew clean assemble'
-		echo 'Code check..'
-                sh'./gradlew check'
             }
         }
         stage('Test') {
             steps {
                 echo 'Testing..'
                 sh'./gradlew test jacocoTestReport'
+		echo 'Code check..'
+                sh'./gradlew check'
             }
         }
         stage('CodeQuality') {
