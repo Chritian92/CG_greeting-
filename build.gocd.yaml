@@ -70,6 +70,20 @@ pipelines:
                     arguments:
                       - sonarqube
                       - -Dsonar.host.url=http://10.28.135.53:9000
+      
+      - Package:
+          jobs:
+            fatJar:
+              tasks:
+                - exec:
+                    command: ./gradlew
+                    arguments:
+                      - build
+                      - capsule
+              artifacts:
+                - build:
+                    source: build/libs/*.jar
+                    destination: CapJar                
       - Publish:
           jobs:
             publishArtifacts:
