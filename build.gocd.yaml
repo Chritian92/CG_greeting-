@@ -69,7 +69,6 @@ pipelines:
                     command: ./gradlew
                     arguments:
                       - sonarqube
-                      - -Dsonar.host.url=http://10.28.135.53:9000
       
       - Package:
           jobs:
@@ -113,5 +112,4 @@ pipelines:
                       - deploy
                       - -Pdev_server=10.28.135.237
                       - -Pjar_path=jar
-                      - -Pjar_name=greeting-1.0-capsule
-                      - -p
+                      - -Pjar_name=greeting-1.0-capsule                      
