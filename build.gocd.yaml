@@ -69,9 +69,7 @@ pipelines:
                     command: ./gradlew
                     arguments:
                       - sonarqube
-                      - -Dsonar.organization=chritian92-github
-                      - -Dsonar.host.url=https://sonarcloud.io
-                      - -Dsonar.login=9e466878cd5882f00bb4127599e7623efa322e91
+                      - -Dsonar.host.url=http://10.28.135.53:9000
       - Publish:
           jobs:
             publishArtifacts:
@@ -83,4 +81,23 @@ pipelines:
               artifacts:
                 - build:
                     source: repos/*.jar
-                    destination: war
+                    destination: jar
+
+      - Deploy:
+          jobs:
+            deploying:
+              tasks:
+                - fetch:
+                     stage: Package
+                     job: Packaging
+                     source: jar/
+                - exec:
+                    command: ./gradlew
+                    arguments:
+                      - -b
+                      - deploy.gradle
+                      - deploy
+                      - -Pdev_server=10.28.135.237
+                      - -Pjar_path=jar
+                      - -Pjar_name=greeting-1.0-capsule
+                      - -p

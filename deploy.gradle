@@ -1,0 +1,32 @@
+plugins {
+  id 'org.hidetake.ssh' version '2.9.0'
+}
+
+remotes {
+  webServer {
+    host = dev_server
+    user = user_server
+    identity = file(key_path)
+  }
+}
+
+task deploy {
+  doLast {
+    ssh.run {
+      session(remotes.webServer) {
+        execute 'echo Stopping Tomcat service...'
+        execute 'sudo service tomcat stop'
+        execute "sudo rm -f ${tomcat_webapps}/${jar_name}.jar", ignoreError: true
+        execute "sudo rm -rf ${tomcat_webapps}/${jar_name}", ignoreError: true
+
+        execute 'echo Sending war file...'
+        put from: "${jar_path}/${jar_name}.jar", into: "/tmp/${jar_name}.jar"
+        execute "sudo cp -f /tmp/${jar_name}.jar ${tomcat_webapps}/${jar_name}.jar", ignoreError: true
+        remove "/tmp/${jar_name}.jar"
+
+        execute 'echo Starting Tomcat service...'
+        execute 'sudo service tomcat start'
+      }
+    }
+  }
+}
