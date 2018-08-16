@@ -108,7 +108,6 @@ pipelines:
                     command: ./gradlew
                     arguments:
                       - -b
-                      - deploy.gradle
                       - deploy
                       - -Pdev_server=10.28.135.237
                       - -Pjar_path=jar
