@@ -89,8 +89,8 @@ pipelines:
               tasks:
                 - fetch:
                      stage: Package
-                     job: Packaging
-                     source: jar/
+                     job: fatJar
+                     source: fatJar/
                 - exec:
                     command: ./gradlew
                     arguments:
