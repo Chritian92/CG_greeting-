@@ -108,7 +108,8 @@ pipelines:
                     command: ./gradlew
                     arguments:
                       - -b
+                      - deploy.gradle
                       - deploy
                       - -Pdev_server=10.28.135.237
                       - -Pjar_path=jar
-                      - -Pjar_name=greeting-1.0-capsule                      
+                      - -Pjar_name=greeting-1.0-capsule
