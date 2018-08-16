@@ -62,6 +62,12 @@ uploadArchives {
     }
 }
 
+allure {
+    version = '2.6.0'
+    autoconfigure = true
+    aspectjweaver = true
+}
+
 capsule {
     capsuleManifest {
         applicationId = 'org.jooby'
