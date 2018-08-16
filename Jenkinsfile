@@ -57,7 +57,7 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                sh './gradlew -b deploy.gradle deploy -Pdev_server=10.28.135.237 -Puser_server=ubuntu -Pkey_path=/var/jenkins_home/var.pem -Pjar_path=build/libs -Pjar_name=greeting-1.0-capsule -Puser_home=/home/ubuntu'
+                sh './gradlew -b deploy.gradle deploy -Pdev_server=10.28.135.237 -Puser_server=ubuntu -Pkey_path=/home/var.pem -Pjar_path=build/libs -Pjar_name=greeting-1.0-capsule -Puser_home=/home/ubuntu'
             }
         }     
     }   
