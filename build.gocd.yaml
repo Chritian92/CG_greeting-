@@ -20,7 +20,7 @@ pipelines:
               artifacts:
                 - build:
                     source: build/libs/*.jar
-                    destination: build
+                    destination: jar
       - Test:
           jobs:
             Tests:
@@ -101,9 +101,9 @@ pipelines:
             deploying:
               tasks:
                 - fetch:
-                     stage: Package
-                     job: fatJar
-                     source: fatJar/
+                     stage: Build
+                     job: Building
+                     source: jar/
                 - exec:
                     command: ./gradlew
                     arguments:
