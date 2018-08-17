@@ -3,6 +3,7 @@
 # Package Files #
 *.ear
 target
+.allure
 .gradle
 .classpath
 .project

@@ -43,17 +43,17 @@ pipelines:
                     source: build/test-results/test/*xml
                     destination: xml
                 - build:
-                    source: build/jacoco/**/*
-                    destination: jacoco
+                    source: build/reports/jacoco/*
+                    destination: html
                 - build:
                      source: build/reports/checkstyle/*
-                     destination: checkstyle
+                     destination: html
                 - build:
                      source: build/reports/findbugs/*
-                     destination: findbugs
+                     destination: html
                 - build:
                      source: build/reports/pmd/*
-                     destination: pmd
+                     destination: html
               tabs:
                 Junit_Test: html/index.html
                 Xml_Test_Result: xml/TEST-greeting.AppTest.xml

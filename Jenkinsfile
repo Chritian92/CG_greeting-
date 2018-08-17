@@ -28,9 +28,33 @@ pipeline {
                         allowMissing: false,
                         alwaysLinkToLastBuild: false,
                         keepAll: true,
-                        reportDir: 'build/jacocoHtml',
+                        reportDir: 'build/reports/jacoco',
                         reportFiles: 'index.html',
-                        reportName: "Code Coverage"
+                        reportName: "Code Coverage Jacoco"
+                        ])
+                    publishHTML(target: [allowMissing: true, 
+                        alwaysLinkToLastBuild: false,  
+                        keepAll: true, 
+                        reportDir: 'build/reports/checkstyle', 
+                        reportFiles: 'main.html', 
+                        reportTitles: "Checkstyle report",
+                        reportName: 'CheckstyleReport'
+                        ])
+                    publishHTML(target: [allowMissing: true, 
+                        alwaysLinkToLastBuild: false,  
+                        keepAll: true, 
+                        reportDir: 'build/reports/findbugs', 
+                        reportFiles: 'main.html', 
+                        reportTitles: "Bugs Report",
+                        reportName: 'BugReport'
+                        ])
+                    publishHTML(target: [allowMissing: true, 
+                        alwaysLinkToLastBuild: false,  
+                        keepAll: true, 
+                        reportDir: 'build/reports/pmd', 
+                        reportFiles: 'main.html', 
+                        reportTitles: "source code analyzer",
+                        reportName: 'PmdReport'
                         ])
                 }			   
             }     
@@ -40,19 +64,6 @@ pipeline {
                 echo 'Code Quality..'
                 sh'./gradlew sonarqube'
 
-            }
-        }
-        stage('Publish') {
-            steps {
-                echo 'Publishing Artifact....'
-        		sh './gradlew uploadArchives '
-        		echo 'Publishing Reports....'
-        		sh './gradlew clean test jacocoTestReport'
-            }
-            post {
-                success {
-                    archiveArtifacts artifacts: '**/repos/*.jar', fingerprint: true
-                }      
             }
         }
         stage('Deploy') {
