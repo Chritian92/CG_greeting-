@@ -44,16 +44,16 @@ pipelines:
                     destination: xml
                 - build:
                     source: build/reports/jacoco/*
-                    destination: html
+                    destination: jacoco
                 - build:
                      source: build/reports/checkstyle/*
-                     destination: html
+                     destination: checkstyle
                 - build:
                      source: build/reports/findbugs/*
-                     destination: html
+                     destination: findbugs
                 - build:
                      source: build/reports/pmd/*
-                     destination: html
+                     destination: pmd
               tabs:
                 Junit_Test: html/index.html
                 Xml_Test_Result: xml/TEST-greeting.AppTest.xml
@@ -113,3 +113,18 @@ pipelines:
                       - -Pdev_server=10.28.135.237
                       - -Pjar_path=jar
                       - -Pjar_name=greeting-1.0-capsule
+      - Acceptance:
+          jobs:
+            acceptance:
+              tasks:
+                - exec:
+                    command: ./gradlew
+                    arguments:
+                      - test
+                      - allureReport
+              artifacts:
+                - build:
+                    source: build/reports/allure-results/*
+                    destination: allure_html
+              tabs:
+                Allure_Report: allure_html/index.html

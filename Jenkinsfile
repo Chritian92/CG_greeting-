@@ -10,7 +10,7 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Testing..'
-                sh'./gradlew test jacocoTestReport check'
+                sh'./gradlew clean test jacocoTestReport check'
             }
         
             post {
@@ -66,9 +66,40 @@ pipeline {
 
             }
         }
+        stage('Publish') {
+            steps {
+        		sh './gradlew build capsule'
+                echo 'upload...'
+                sh './gradlew uploadArchives'
+            }
+            post {
+                success {
+                    archiveArtifacts artifacts: 'build/libs/*.jar', fingerprint: true
+                    archiveArtifacts artifacts: '**/repos/*.jar', fingerprint: true
+                }      
+            }
+        }
         stage('Deploy') {
             steps {
                 sh './gradlew -b deploy.gradle deploy -Pdev_server=10.28.135.237 -Puser_server=ubuntu -Pkey_path=/home/var.pem'
+            }
+        }
+        stage('Acceptance') {
+            steps {
+        		sh './gradlew clean test allureReport'
+               
+            }
+            post {
+                success {
+                    publishHTML (target: [
+                        allowMissing: true,
+                        alwaysLinkToLastBuild: false,
+                        keepAll: true,
+                        reportDir: 'build/reports/allure-results/',
+                        reportFiles: 'index.html',
+                        reportName: "Allure Report"
+                         ])
+                }      
             }
         }     
     }   
