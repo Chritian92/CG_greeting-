@@ -56,6 +56,7 @@ pipelines:
                      destination: pmd
               tabs:
                 Junit_Test: html/index.html
+                Code_Coverage: jacoco/index.html
                 Xml_Test_Result: xml/TEST-greeting.AppTest.xml
                 Test_Summary: html_report/index.html
                 checkstyle: checkstyle/main.html
