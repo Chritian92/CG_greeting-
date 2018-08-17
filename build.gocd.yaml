@@ -6,7 +6,7 @@ pipelines:
     materials:
       repo: 
         git: https://github.com/devops-at06/CG_greeting-.git
-        branch: add_allure
+        branch: master
     stages:
       - Build:
           jobs:
