@@ -86,7 +86,7 @@ pipeline {
         }
         stage('Acceptance') {
             steps {
-        		sh './acceptance/gradlew clean test cucumber allureReport -p acceptance/'
+        		sh './aceptance/gradlew clean test cucumber allureReport -p aceptance/'
                
             }
             post {
@@ -95,7 +95,7 @@ pipeline {
                         allowMissing: true,
                         alwaysLinkToLastBuild: false,
                         keepAll: true,
-                        reportDir: 'acceptance/build/reports/allure-results/',
+                        reportDir: 'aceptance/build/reports/allure-results/',
                         reportFiles: 'index.html',
                         reportName: "Allure Report"
                          ])
@@ -103,7 +103,7 @@ pipeline {
                         allowMissing: true,
                         alwaysLinkToLastBuild: false,
                         keepAll: true,
-                        reportDir: 'acceptance/build/cucumber-results/cucumber-html-reports/',
+                        reportDir: 'aceptance/build/cucumber-results/cucumber-html-reports/',
                         reportFiles: 'overview-features.html',
                         reportName: "Cucumber Report"
                          ])

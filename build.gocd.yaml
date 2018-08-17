@@ -119,16 +119,20 @@ pipelines:
             acceptance:
               tasks:
                 - exec:
-                    command: ./gradlew
+                    command: ./aceptance/gradlew
                     arguments:
+                      - clean
                       - test
+                      - cucumber
                       - allureReport
+                      - -p
+                      - aceptance
               artifacts:
                 - test:
-                    source: build/reports/allure-results/*
+                    source: aceptance/build/reports/allure-results/*
                     destination: allure_html
                 - test:
-                    source: acceptance/build/cucumber-results/cucumber-html-reports/overview-features.html
+                    source: aceptance/build/cucumber-results/cucumber-html-reports/overview-features.html
                     destination: cucumber_html
               tabs:
                 Allure_Report: allure_html/index.html
