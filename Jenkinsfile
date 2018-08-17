@@ -10,7 +10,7 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Testing..'
-                sh'./gradlew test jacocoTestReport check'
+                sh'./gradlew clean test jacocoTestReport check'
             }
         
             post {
@@ -28,9 +28,33 @@ pipeline {
                         allowMissing: false,
                         alwaysLinkToLastBuild: false,
                         keepAll: true,
-                        reportDir: 'build/jacocoHtml',
+                        reportDir: 'build/reports/jacoco',
                         reportFiles: 'index.html',
-                        reportName: "Code Coverage"
+                        reportName: "Code Coverage Jacoco"
+                        ])
+                    publishHTML(target: [allowMissing: true, 
+                        alwaysLinkToLastBuild: false,  
+                        keepAll: true, 
+                        reportDir: 'build/reports/checkstyle', 
+                        reportFiles: 'main.html', 
+                        reportTitles: "Checkstyle report",
+                        reportName: 'CheckstyleReport'
+                        ])
+                    publishHTML(target: [allowMissing: true, 
+                        alwaysLinkToLastBuild: false,  
+                        keepAll: true, 
+                        reportDir: 'build/reports/findbugs', 
+                        reportFiles: 'main.html', 
+                        reportTitles: "Bugs Report",
+                        reportName: 'BugReport'
+                        ])
+                    publishHTML(target: [allowMissing: true, 
+                        alwaysLinkToLastBuild: false,  
+                        keepAll: true, 
+                        reportDir: 'build/reports/pmd', 
+                        reportFiles: 'main.html', 
+                        reportTitles: "source code analyzer",
+                        reportName: 'PmdReport'
                         ])
                 }			   
             }     
@@ -44,20 +68,46 @@ pipeline {
         }
         stage('Publish') {
             steps {
-                echo 'Publishing Artifact....'
-        		sh './gradlew uploadArchives '
-        		echo 'Publishing Reports....'
-        		sh './gradlew clean test jacocoTestReport'
+        		sh './gradlew build capsule'
+                echo 'upload...'
+                sh './gradlew uploadArchives'
             }
             post {
                 success {
+                    archiveArtifacts artifacts: 'build/libs/*.jar', fingerprint: true
                     archiveArtifacts artifacts: '**/repos/*.jar', fingerprint: true
                 }      
             }
         }
         stage('Deploy') {
             steps {
-                sh './gradlew -b deploy.gradle deploy -Pdev_server=10.28.135.237 -Puser_server=ubuntu -Pkey_path=/var/jenkins_home/var.pem -Pjar_path=build/libs -Pjar_name=greeting-1.0-capsule -Puser_home=/home/ubuntu'
+                sh './gradlew -b deploy.gradle deploy -Pdev_server=10.28.135.237 -Puser_server=ubuntu -Pkey_path=/home/var.pem'
+            }
+        }
+        stage('Acceptance') {
+            steps {
+        		sh './aceptance/gradlew clean test cucumber allureReport -p aceptance/'
+               
+            }
+            post {
+                success {
+                    publishHTML (target: [
+                        allowMissing: true,
+                        alwaysLinkToLastBuild: false,
+                        keepAll: true,
+                        reportDir: 'aceptance/build/reports/allure-results/',
+                        reportFiles: 'index.html',
+                        reportName: "Allure Report"
+                         ])
+                    publishHTML (target: [
+                        allowMissing: true,
+                        alwaysLinkToLastBuild: false,
+                        keepAll: true,
+                        reportDir: 'aceptance/build/cucumber-results/cucumber-html-reports/',
+                        reportFiles: 'overview-features.html',
+                        reportName: "Cucumber Report"
+                         ])
+                }      
             }
         }     
     }   

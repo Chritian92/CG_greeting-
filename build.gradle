@@ -44,14 +44,14 @@ dependencies {
 
 jacoco {
     toolVersion = "0.8.1"
-    reportsDir = file("$buildDir/reports/Jacoco")
+    reportsDir = file("$buildDir/reports/jacoco")
 }
 
 jacocoTestReport {
     reports {
         xml.enabled false
         csv.enabled false
-        html.destination file("${buildDir}/jacocoHtml")
+        html.destination file("${buildDir}/reports/jacoco")
     }
 }
 
@@ -74,6 +74,12 @@ capsule {
         applicationId = 'org.jooby'
         applicationClass = 'greeting.App'
     }
+}
+
+findbugs{
+    ignoreFailures=true
+    findbugsTest.enabled=false
+    toolVersion = '3.0.1'
 }
 
 pmd {

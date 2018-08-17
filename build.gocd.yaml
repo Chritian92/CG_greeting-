@@ -6,7 +6,7 @@ pipelines:
     materials:
       repo: 
         git: https://github.com/devops-at06/CG_greeting-.git
-        branch: master
+        branch: add_allure
     stages:
       - Build:
           jobs:
@@ -37,14 +37,14 @@ pipelines:
                       - check
               artifacts:
                 - build:
-                    source: build/reports/tests/test/*
+                    source: build/reports/tests/test/**/*
                     destination: html_report
                 - test:
                     source: build/test-results/test/*xml
                     destination: xml
                 - build:
-                    source: build/jacoco/**/*
-                    destination: jacoco
+                    source: build/reports/jacoco/**/*
+                    destination: coverage
                 - build:
                      source: build/reports/checkstyle/*
                      destination: checkstyle
@@ -56,6 +56,7 @@ pipelines:
                      destination: pmd
               tabs:
                 Junit_Test: html/index.html
+                Code_Coverage: coverage/index.html
                 Xml_Test_Result: xml/TEST-greeting.AppTest.xml
                 Test_Summary: html_report/index.html
                 checkstyle: checkstyle/main.html
@@ -113,3 +114,26 @@ pipelines:
                       - -Pdev_server=10.28.135.237
                       - -Pjar_path=jar
                       - -Pjar_name=greeting-1.0-capsule
+      - Acceptance:
+          jobs:
+            acceptance:
+              tasks:
+                - exec:
+                    command: ./aceptance/gradlew
+                    arguments:
+                      - clean
+                      - test
+                      - cucumber
+                      - allureReport
+                      - -p
+                      - aceptance
+              artifacts:
+                - test:
+                    source: aceptance/build/reports/allure-results/*
+                    destination: allure_html
+                - test:
+                    source: aceptance/build/cucumber-results/cucumber-html-reports/overview-features.html
+                    destination: cucumber_html
+              tabs:
+                Allure_Report: allure_html/index.html
+                Cucumber_Report: cucumber_html/overview-features.html
