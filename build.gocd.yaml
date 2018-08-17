@@ -128,7 +128,7 @@ pipelines:
                       - -p
                       - aceptance
               artifacts:
-                - build:
+                - test:
                     source: aceptance/build/reports/allure-results/*
                     destination: allure_html
                 - build:
