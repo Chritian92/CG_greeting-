@@ -128,10 +128,10 @@ pipelines:
                       - -p
                       - aceptance
               artifacts:
-                - test:
+                - build:
                     source: aceptance/build/reports/allure-results/*
                     destination: allure_html
-                - test:
+                - build:
                     source: aceptance/build/cucumber-results/cucumber-html-reports/overview-features.html
                     destination: cucumber_html
               tabs:
